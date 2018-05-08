@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {ListView, StyleSheet, Text, View} from 'react-native';
+import {AppRegistry, ListView, View} from 'react-native';
+import ListViewComponent from '../../components/listView';
 
 import axios from 'axios';
 
@@ -27,33 +28,16 @@ export default class StationsList extends Component {
         this.fetchData();
     }
 
-    renderRow = (rowData) => {
-        return (
-            <View style={styles.item}>
-                <Text>{rowData.stationName}</Text>
-            </View>
-        )
-    };
-
     render() {
+        const {dataSource} = this.state;
+        const {navigation} = this.props;
         return (
             <View>
-                <ListView
-                    dataSource={this.state.dataSource}
-                    renderRow={(rowData) => this.renderRow(rowData)}
-                />
+                <ListViewComponent  dataSource={dataSource}
+                                   col1='stationName' navigationTo='Details' navigation={navigation}/>
             </View>
         );
     }
 }
 
-
-const styles = StyleSheet.create({
-    item: {
-        padding: 10,
-        marginTop: 3,
-        backgroundColor: '#ffe4c4',
-        alignItems: 'center',
-    }
-});
-
+AppRegistry.registerComponent('StationsList', () => StationsList);

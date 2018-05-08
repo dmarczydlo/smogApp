@@ -1,22 +1,23 @@
 import React from 'react';
-import {StyleSheet, Text, View, StatusBar} from 'react-native';
-import StationsList from './components/stationsList';
+import {createStackNavigator} from 'react-navigation';
+import Home from './pages/Home';
+import Details from './pages/Details';
+import Graph from './pages/Graph';
 
 
-export default class App extends React.Component {
-    render() {
-        return (
-            <View style={styles.container}>
-                <StatusBar barStyle = "dark-content" hidden = {false} />
-                <StationsList/>
-            </View>
-        );
-    }
-}
-
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: 'white',
-        marginTop: 20
+export default createStackNavigator({
+        Home: {
+            screen: Home
+        },
+        Details: {
+            screen: Details,
+        },
+        Graph: {
+            screen: Graph,
+        },
     },
-});
+    {
+        initialRouteName: 'Home',
+    }
+);
+
