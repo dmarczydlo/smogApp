@@ -33,13 +33,14 @@ export default class ListViewComponent extends Component {
     };
 
     render() {
-        const {navigationTo, header, col1, col2, dataSource} = this.props;
+        const {navigationTo, header, col1, col2, dataSource, customRenderRow} = this.props;
+
         return (
             <View>
                 {header && <Text style={styles.header}>{header}</Text>}
                 {dataSource.getRowCount() ? <ListView
                         dataSource={dataSource}
-                        renderRow={(rowData) => this.renderRow(rowData, col1, col2, navigationTo)}
+                        renderRow={(rowData) => customRenderRow ? customRenderRow(rowData) : this.renderRow(rowData, col1, col2, navigationTo)}
                     /> :
                     <Loader/>
                 }
@@ -72,13 +73,15 @@ ListViewComponent.propTypes = {
     col1: PropTypes.string.isRequired,
     col2: PropTypes.string,
     navigationTo: PropTypes.string,
-    navigation: PropTypes.object
+    navigation: PropTypes.object,
+    customRenderRow: PropTypes.func,
 };
 
 ListViewComponent.defaultProps = {
     col2: '',
     navigationTo: '',
-    navigation: {}
+    navigation: {},
+    customRenderRow: null
 };
 
 AppRegistry.registerComponent('ListViewComponent', () => ListViewComponent);

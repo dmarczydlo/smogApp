@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {AppRegistry, ListView, ScrollView} from 'react-native';
+import {AppRegistry, ListView, ScrollView, View, Text, StyleSheet} from 'react-native';
 import ListViewComponent from '../listView';
 
 import axios from 'axios';
 import {isObject} from "../../utils/object";
-import Chart from "../chart";
+import {getIndex} from "../../utils/airIndex";
 
 const API_SENSORS_PATH = 'http://api.gios.gov.pl/pjp-api/rest/station/sensors/';
 const API_INDEX_PATH = 'http://api.gios.gov.pl/pjp-api/rest/aqindex/getIndex/';
@@ -53,6 +53,21 @@ export default class DetailsList extends Component {
         this.fetchData();
     }
 
+    customRenderRow = (rowData) => {
+        return (
+            <View style={styles.item}>
+                <View style={{backgroundColor: getIndex(rowData.value).color, borderRadius: 100, height: 20, width: 20, marginRight: 10}}>
+                </View>
+                <View style={{width: '20%'}}>
+                    <Text>{rowData.label}</Text>
+                </View>
+                <View style={{width: '70%'}}>
+                    <Text>{rowData.value}</Text>
+                </View>
+            </View>
+        )
+    };
+
     render() {
         const {navigation} = this.props;
         const {sensorsSource, indexesSource} = this.state;
@@ -63,11 +78,23 @@ export default class DetailsList extends Component {
             >
                 <ListViewComponent header='Dostępne sensory' dataSource={sensorsSource}
                                    col1='param.paramName' navigationTo='Graph' navigation={navigation}/>
-                <ListViewComponent header='Status' dataSource={indexesSource} col1='label' col2='value'/>
+                <ListViewComponent header='Status' dataSource={indexesSource} col1='label' col2='value'
+                                   customRenderRow={this.customRenderRow}/>
             </ScrollView>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    item: {
+        padding: 10,
+        marginTop: 3,
+        backgroundColor: '#ffffff',
+        alignItems: 'center',
+        flex: 1,
+        flexDirection: 'row'
+    }
+});
 
 AppRegistry.registerComponent('DetailsList', () => DetailsList);
 

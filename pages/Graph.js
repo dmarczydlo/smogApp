@@ -47,11 +47,11 @@ export default class Graph extends React.Component {
     render() {
         const {navigation} = this.props;
         const {id, param} = navigation.state.params;
-        const {width} = Dimensions.get('window')
+        const {width} = Dimensions.get('screen');
         return (
             <ImageBackground source={ImagesUri} style={styles.background} resizeMode='cover'>
                 <View style={styles.container}>
-                    <View style={{flex: 1}}>
+                    <View style={styles.top}>
                         <Carousel
                             ref={(c) => {
                                 this._carousel = c;
@@ -62,8 +62,10 @@ export default class Graph extends React.Component {
                             sliderWidth={width}
                         />
                     </View>
-                    <Text style={styles.header}>{`Wykres dla ${param.paramName}`}</Text>
-                    <Chart style={{flex: 2}} sensorId={id}/>
+                    <View style={styles.bottom}>
+                        <Text style={styles.header}>{`Wykres dla ${param.paramName}`}</Text>
+                        <Chart style={{flex: 2}} sensorId={id}/>
+                    </View>
                 </View>
             </ImageBackground>
         );
@@ -72,7 +74,6 @@ export default class Graph extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'column',
         flex: 1
     },
     background: {
@@ -88,6 +89,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         padding: 4,
         textAlign: 'center'
+    },
+    top: {
+        height: '50%'
+    },
+    bottom: {
+        height: '50%'
     }
 });
 

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AppRegistry, StyleSheet, Text, View} from 'react-native';
+import {AppRegistry, StyleSheet, Text, View, Dimensions} from 'react-native';
 import PureChart from 'react-native-pure-chart';
 import axios from 'axios';
 import {parse} from "../../utils/object";
@@ -10,7 +10,11 @@ const API_VALUE_PATH = 'http://api.gios.gov.pl/pjp-api/rest/data/getData/';
 export default class Chart extends Component {
 
     state = {
-        chartData: []
+        chartData: [],
+        dimensions: {
+            height: 0,
+            width: 0
+        }
     };
 
     fetchData = () => {
@@ -28,13 +32,25 @@ export default class Chart extends Component {
         this.fetchData();
     }
 
-    render() {
 
-        const {chartData} = this.state;
+    onLayout = (e) => {
+        const dimensions = {
+            height: e.nativeEvent.layout.height,
+            width: e.nativeEvent.layout.width
+        };
+
+        this.setState({
+            dimensions
+        });
+
+    };
+
+    render() {
+        const {chartData, dimensions} = this.state;
 
         return (
-            <View style={styles.container}>
-                {chartData.length ? <PureChart data={chartData} type='line'/> : <Loader/>}
+            <View style={styles.container} onLayout={this.onLayout}>
+                {chartData.length ? <PureChart data={chartData} height={dimensions.height} type='line'/> : <Loader/>}
             </View>
         );
     }
@@ -43,7 +59,6 @@ export default class Chart extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: '100%'
     },
 });
 
