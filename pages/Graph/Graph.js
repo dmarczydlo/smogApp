@@ -1,10 +1,10 @@
 import React from 'react';
 import {AppRegistry, StyleSheet, Text, View, ImageBackground, Dimensions} from 'react-native';
-import theme from '../theme';
-import Chart from '../components/chart';
-import ImagesUri from '../assets/air.jpg';
-import BestAir from '../assets/best_air.jpg';
-import BadAir from '../assets/bad_air.jpg';
+import theme from '../../theme';
+import Chart from '../../components/chart';
+import ImagesUri from '../../assets/air.jpg';
+import BestAir from '../../assets/best_air.jpg';
+import BadAir from '../../assets/bad_air.jpg';
 
 import Carousel from 'react-native-snap-carousel';
 
