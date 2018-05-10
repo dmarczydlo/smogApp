@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {AppRegistry, StyleSheet, Text, View, Dimensions} from 'react-native';
-import PureChart from 'react-native-pure-chart';
+import {AppRegistry, StyleSheet, ScrollView} from 'react-native';
+import FusionCharts from 'react-native-fusioncharts';
 import axios from 'axios';
 import {parse} from "../../utils/object";
-import Loader from '../loader';
+import theme from '../../theme';
 
 const API_VALUE_PATH = 'http://api.gios.gov.pl/pjp-api/rest/data/getData/';
 
@@ -13,9 +13,17 @@ export default class Chart extends Component {
         chartData: [],
         dimensions: {
             height: 0,
-            width: 0
-        }
+            width: 0,
+        },
+        chart: {
+            type: 'spline',
+            width: 3000,
+            height: '100%',
+            dataFormat: 'json'
+        },
+        dataSource: {}
     };
+
 
     fetchData = () => {
         const {sensorId} = this.props;
@@ -23,7 +31,12 @@ export default class Chart extends Component {
             let {values} = resp.data;
             values = parse(values);
             this.setState({
-                chartData: values
+                dataSource: {
+                    "chart": {
+                        "theme": "fint"
+                    },
+                    data: values
+                }
             });
         });
     };
@@ -46,21 +59,20 @@ export default class Chart extends Component {
     };
 
     render() {
-        const {chartData, dimensions} = this.state;
-
         return (
-            <View style={styles.container} onLayout={this.onLayout}>
-                {chartData.length ? <PureChart data={chartData} height={dimensions.height} type='line'/> : <Loader/>}
-            </View>
+            <ScrollView horizontal={true} style={theme.container} onLayout={this.onLayout}>
+                <FusionCharts
+                    type={this.state.chart.type}
+                    width={this.state.chart.width}
+                    height={this.state.chart.height}
+                    dataFormat={this.state.chart.dataFormat}
+                    dataSource={this.state.dataSource}
+                    libraryPath={{uri: 'file:///android_asset/fusioncharts.html'}}
+                />
+            </ScrollView>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-});
 
 AppRegistry.registerComponent('Chart', () => Chart);
 

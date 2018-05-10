@@ -14,10 +14,9 @@ export default class DetailsList extends Component {
 
     constructor() {
         super();
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            sensorsSource: ds,
-            indexesSource: ds
+            sensorsSource: [],
+            indexesSource: []
 
         };
     }
@@ -26,7 +25,7 @@ export default class DetailsList extends Component {
         const {stationId} = this.props;
         axios.get(`${API_SENSORS_PATH}${stationId}`).then((resp) => {
             this.setState({
-                sensorsSource: this.state.sensorsSource.cloneWithRows(resp.data)
+                sensorsSource: resp.data
             });
         });
 
@@ -43,7 +42,7 @@ export default class DetailsList extends Component {
                     }
                 });
                 this.setState({
-                    indexesSource: this.state.indexesSource.cloneWithRows(indexesData)
+                    indexesSource: indexesData
                 });
             }
         });
@@ -56,7 +55,13 @@ export default class DetailsList extends Component {
     customRenderRow = (rowData) => {
         return (
             <View style={styles.item}>
-                <View style={{backgroundColor: getIndex(rowData.value).color, borderRadius: 100, height: 20, width: 20, marginRight: 10}}>
+                <View style={{
+                    backgroundColor: getIndex(rowData.value).color,
+                    borderRadius: 100,
+                    height: 20,
+                    width: 20,
+                    marginRight: 10
+                }}>
                 </View>
                 <View style={{width: '20%'}}>
                     <Text>{rowData.label}</Text>

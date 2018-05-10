@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {AppRegistry, ListView, View} from 'react-native';
+import {AppRegistry, ListView, View, Text} from 'react-native';
 import ListViewComponent from '../../components/listView';
+import theme from '../../theme';
 
 import axios from 'axios';
 
@@ -10,16 +11,15 @@ export default class StationsList extends Component {
 
     constructor() {
         super();
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds
+            dataSource: []
         };
     }
 
     fetchData = () => {
         axios.get(API_PATH).then((resp) => {
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(resp.data)
+                dataSource: resp.data
             });
         });
     };
@@ -32,9 +32,15 @@ export default class StationsList extends Component {
         const {dataSource} = this.state;
         const {navigation} = this.props;
         return (
-            <View>
-                <ListViewComponent  dataSource={dataSource}
-                                   col1='stationName' navigationTo='Details' navigation={navigation}/>
+            <View style={theme.container}>
+                <Text style={theme.subHeader}>Dostepne stacje pomiarowe</Text>
+                <ListViewComponent dataSource={dataSource}
+                                   col1='stationName'
+                                   navigationTo='Details'
+                                   navigation={navigation}
+                                   filter={true}
+                                   filterBy={'stationName'}
+                />
             </View>
         );
     }
