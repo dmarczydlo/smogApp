@@ -13,7 +13,7 @@ const getData = (data, param) => {
 const parse = (data) => {
     return data.reduce((acc, currentValue) => {
         if (currentValue.value) {
-            const val = {x: currentValue.date, y: currentValue.value};
+            const val = {label: currentValue.date, value: Number((currentValue.value).toFixed(2))};
             acc.push(val);
         }
         return acc;

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {AppRegistry, ListView, View} from 'react-native';
+import {AppRegistry, ListView, View, Text} from 'react-native';
 import ListViewComponent from '../../components/listView';
+import theme from '../../theme';
 
 import axios from 'axios';
 
@@ -32,7 +33,8 @@ export default class StationsList extends Component {
         const {dataSource} = this.state;
         const {navigation} = this.props;
         return (
-            <View>
+            <View style={theme.container}>
+                <Text style={theme.subHeader}>Dostepne stacje pomiarowe</Text>
                 <ListViewComponent  dataSource={dataSource}
                                    col1='stationName' navigationTo='Details' navigation={navigation}/>
             </View>

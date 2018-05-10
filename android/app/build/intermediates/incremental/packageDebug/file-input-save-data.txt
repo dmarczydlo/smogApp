@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Thu May 10 10:18:56 CEST 2018
+#Thu May 10 11:50:57 CEST 2018
 210.set=ANDROID_RESOURCE
 282.file=/home/daniel/Workspace/smogApp/android/app/build/intermediates/res/resources-debug.ap_/res/mipmap-hdpi-v4/ic_launcher.png
 14.set=ANDROID_RESOURCE

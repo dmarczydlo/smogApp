@@ -1,8 +1,9 @@
 import React, {Component, Fragment} from 'react';
-import {ListView, StyleSheet, Text, View, TouchableHighlight, AppRegistry} from 'react-native';
+import {ListView, StyleSheet, Text, View, TouchableHighlight, AppRegistry, TextInput} from 'react-native';
 import PropTypes from 'prop-types';
 import {getData} from "../../utils/object";
 import Loader from '../loader';
+import theme from '../../theme';
 
 
 const child = (rowData, col1, col2 = '') => {
@@ -14,6 +15,10 @@ const child = (rowData, col1, col2 = '') => {
 };
 
 export default class ListViewComponent extends Component {
+
+    state = {
+        search: ''
+    };
 
     renderRow = (rowData, col1, col2 = '', navigateTo = '') => {
         return (
@@ -32,16 +37,28 @@ export default class ListViewComponent extends Component {
         this.props.navigation.navigate(navigateTo, rowData);
     };
 
+    onChangeSearch = (value) => {
+        console.log(value);
+    };
+
     render() {
         const {navigationTo, header, col1, col2, dataSource, customRenderRow} = this.props;
 
         return (
             <View>
-                {header && <Text style={styles.header}>{header}</Text>}
-                {dataSource.getRowCount() ? <ListView
-                        dataSource={dataSource}
-                        renderRow={(rowData) => customRenderRow ? customRenderRow(rowData) : this.renderRow(rowData, col1, col2, navigationTo)}
-                    /> :
+                {header && <Text style={theme.subHeader}>{header}</Text>}
+                {dataSource.getRowCount() ? <Fragment>
+                        <TextInput
+                            autoCorrect={false}
+                            placeholder="Szukaj"
+                            value={this.state.search}
+                            onChangeText={this.onChangeSearch}
+                        />
+                        <ListView
+                            dataSource={dataSource}
+                            renderRow={(rowData) => customRenderRow ? customRenderRow(rowData) : this.renderRow(rowData, col1, col2, navigationTo)}
+                        />
+                    </Fragment> :
                     <Loader/>
                 }
             </View>
@@ -56,11 +73,6 @@ const styles = StyleSheet.create({
         marginTop: 3,
         backgroundColor: '#ffffff',
         alignItems: 'center',
-    },
-    header: {
-        fontSize: 16,
-        padding: 4,
-        textAlign: 'center'
     }
 });
 
