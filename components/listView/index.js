@@ -1,10 +1,9 @@
 import React, {Component, Fragment} from 'react';
 import {ListView, StyleSheet, Text, View, TouchableHighlight, AppRegistry, TextInput} from 'react-native';
 import PropTypes from 'prop-types';
-import {getData} from "../../utils/object";
+import {getData, filterData} from "../../utils/object";
 import Loader from '../loader';
 import theme from '../../theme';
-
 
 const child = (rowData, col1, col2 = '') => {
     return (
@@ -17,8 +16,17 @@ const child = (rowData, col1, col2 = '') => {
 export default class ListViewComponent extends Component {
 
     state = {
-        search: ''
+        search: '',
+        dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     };
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.dataSource) {
+            return {
+                dataSource: prevState.dataSource.cloneWithRows(nextProps.dataSource)
+            }
+        }
+    }
 
     renderRow = (rowData, col1, col2 = '', navigateTo = '') => {
         return (
@@ -37,30 +45,35 @@ export default class ListViewComponent extends Component {
         this.props.navigation.navigate(navigateTo, rowData);
     };
 
-    onChangeSearch = (value) => {
-        console.log(value);
+    onChangeSearch = (search) => {
+        const {dataSource, filterBy} = this.props;
+        this.setState({
+            search,
+            dataSource: this.state.dataSource.cloneWithRows(filterData(dataSource, filterBy, this.state.search))
+        });
     };
 
     render() {
-        const {navigationTo, header, col1, col2, dataSource, customRenderRow} = this.props;
+        const {search, dataSource} = this.state;
+        const {navigationTo, header, col1, col2, customRenderRow, filter, filterBy} = this.props;
 
         return (
             <View>
                 {header && <Text style={theme.subHeader}>{header}</Text>}
-                {dataSource.getRowCount() ? <Fragment>
-                        <TextInput
-                            autoCorrect={false}
-                            placeholder="Szukaj"
-                            value={this.state.search}
-                            onChangeText={this.onChangeSearch}
-                        />
-                        <ListView
+                <Fragment>
+                    {filter && <TextInput
+                        autoCorrect={false}
+                        placeholder="Szukaj"
+                        value={this.state.search}
+                        onChangeText={this.onChangeSearch}
+                    />
+                    }
+                    {dataSource.getRowCount() ? <ListView
                             dataSource={dataSource}
                             renderRow={(rowData) => customRenderRow ? customRenderRow(rowData) : this.renderRow(rowData, col1, col2, navigationTo)}
-                        />
-                    </Fragment> :
-                    <Loader/>
-                }
+                        /> :
+                        <Loader/>}
+                </Fragment>
             </View>
         );
     };
@@ -87,13 +100,17 @@ ListViewComponent.propTypes = {
     navigationTo: PropTypes.string,
     navigation: PropTypes.object,
     customRenderRow: PropTypes.func,
+    filter: PropTypes.bool,
+    filterBy: PropTypes.string
 };
 
 ListViewComponent.defaultProps = {
     col2: '',
     navigationTo: '',
     navigation: {},
-    customRenderRow: null
+    customRenderRow: null,
+    filter: false,
+    filterBy: ''
 };
 
 AppRegistry.registerComponent('ListViewComponent', () => ListViewComponent);

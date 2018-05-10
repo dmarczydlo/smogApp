@@ -20,8 +20,13 @@ const parse = (data) => {
     }, []);
 };
 
+const filterData = (data, filterBy, queryValue) => {
+    return data.filter(element => element[filterBy].toUpperCase().indexOf(queryValue.toUpperCase()) >= 0);
+};
+
 export {
     isObject,
     getData,
-    parse
+    parse,
+    filterData
 }

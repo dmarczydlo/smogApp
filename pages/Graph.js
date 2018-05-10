@@ -80,10 +80,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     top: {
-        height: '50%'
+        height: '30%'
     },
     bottom: {
-        height: '50%'
+        height: '70%'
     }
 });
 
