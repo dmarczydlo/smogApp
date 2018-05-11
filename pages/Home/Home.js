@@ -1,7 +1,7 @@
 import React from 'react';
 import {AppRegistry, StyleSheet, Text, View, ImageBackground} from 'react-native';
-import StationsList from '../components/stationsList';
-import ImagesUri from '../assets/air.jpg';
+import StationsList from '../../components/stationsList';
+import ImagesUri from '../../assets/air.jpg';
 
 export default class Home extends React.Component {
     static navigationOptions = {
