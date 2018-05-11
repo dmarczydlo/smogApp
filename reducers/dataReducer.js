@@ -8,7 +8,10 @@ import {
     REMOVE_SENSORS_AND_INDEXES,
     FETCH_STATIONS_SUCCESS,
     FETCH_STATIONS_START,
-    FETCH_STATIONS_ERROR
+    FETCH_STATIONS_ERROR,
+    FETCH_CHART_DATA_START,
+    FETCH_CHART_DATA_ERROR,
+    FETCH_CHART_DATA_SUCCESS
 } from "../actions/fetch";
 
 const initialState = {
@@ -23,6 +26,11 @@ const initialState = {
         error: ''
     },
     stations: {
+        fetching: false,
+        source: [],
+        error: ''
+    },
+    chart: {
         fetching: false,
         source: [],
         error: ''
@@ -81,6 +89,17 @@ const dataReducer = (state = initialState, action) => {
             return setSuccess('stations', state, action);
         }
 
+        case FETCH_CHART_DATA_START: {
+            return setStart('chart', state);
+        }
+
+        case FETCH_CHART_DATA_ERROR: {
+            return setError('chart', state, action);
+        }
+
+        case FETCH_CHART_DATA_SUCCESS: {
+            return setSuccess('chart', state, action);
+        }
 
         case REMOVE_SENSORS_AND_INDEXES: {
             return {

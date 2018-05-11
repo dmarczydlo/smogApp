@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import Component from './listView';
 
 const mapStateToProps = (state) => {
-    return state;
+    return {};
 };
 
 const mapDispatchToProps = () => {

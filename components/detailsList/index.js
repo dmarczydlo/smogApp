@@ -3,8 +3,8 @@ import Component from './detailsList';
 import {fetchDataForDetails, clearSensorsAndIndexes} from "../../actions/fetch";
 
 const mapStateToProps = (state) => {
-    const {data} = state;
-    return data;
+    const {sensors, indexes} = state.data;
+    return {sensors, indexes};
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {

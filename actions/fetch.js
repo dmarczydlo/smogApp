@@ -1,6 +1,6 @@
 import axios from "axios/index";
-import {isObject} from "../utils/object";
-import {API_SENSORS_PATH, API_INDEX_PATH, API_STATIONS_PATH} from "../utils/paths";
+import {isObject, parse} from "../utils/object";
+import {API_SENSORS_PATH, API_INDEX_PATH, API_STATIONS_PATH, API_VALUE_PATH} from "../utils/paths";
 
 
 const FETCH_SENSORS_START = 'FETCH_SENSORS_START';
@@ -15,6 +15,9 @@ const FETCH_STATIONS_START = 'FETCH_STATIONS_START';
 const FETCH_STATIONS_SUCCESS = 'FETCH_STATIONS_SUCCESS';
 const FETCH_STATIONS_ERROR = 'FETCH_STATIONS_ERROR';
 
+const FETCH_CHART_DATA_START = 'FETCH_CHART_DATA_START';
+const FETCH_CHART_DATA_SUCCESS = 'FETCH_CHART_DATA_SUCCESS';
+const FETCH_CHART_DATA_ERROR = 'FETCH_CHART_DATA_ERROR';
 
 const REMOVE_SENSORS_AND_INDEXES = 'REMOVE_SENSORS_AND_INDEXES';
 
@@ -79,6 +82,25 @@ const setFetchStationsSuccess = (data) => {
     };
 };
 
+const setFetchChartDataStart = () => {
+    return {
+        type: FETCH_CHART_DATA_START
+    };
+};
+
+const setFetchChartDataError = (error) => {
+    return {
+        type: FETCH_CHART_DATA_ERROR,
+        error
+    };
+};
+
+const setFetchChartDataSuccess = (data) => {
+    return {
+        type: FETCH_CHART_DATA_SUCCESS,
+        data
+    };
+};
 
 const removeSensorsAndIndexes = () => {
     return {
@@ -96,7 +118,7 @@ const fetchDataForStations = () => {
     return (dispatch) => {
         dispatch(setFetchStationsStart());
         axios.get(API_STATIONS_PATH).then((resp) => {
-            if (resp.data) {;
+            if (resp.data) {
                 dispatch(setFetchStationsSuccess(resp.data));
             } else {
                 dispatch(setFetchStationsError('Empty data'));
@@ -104,7 +126,6 @@ const fetchDataForStations = () => {
         }).catch(error => setFetchStationsError(error.message));
     }
 };
-
 
 const fetchDataForDetails = (stationId) => {
     return (dispatch) => {
@@ -137,10 +158,30 @@ const fetchDataForDetails = (stationId) => {
     }
 };
 
+const fetchChartData = (sensorId) => {
+    return (dispatch) => {
+        dispatch(setFetchChartDataStart());
+        axios.get(`${API_VALUE_PATH}${sensorId}`).then((resp) => {
+            if (resp.data) {
+                const dataSource = {
+                    "chart": {
+                        "theme": "fint"
+                    },
+                    data: parse(resp.data.values)
+                };
+                dispatch(setFetchChartDataSuccess(dataSource));
+            } else {
+                dispatch(setFetchChartDataError('Empty data'));
+            }
+        }).catch(error => dispatch(setFetchChartDataError(error.message)));
+    }
+};
+
 export {
     fetchDataForDetails,
     clearSensorsAndIndexes,
     fetchDataForStations,
+    fetchChartData,
     FETCH_SENSORS_SUCCESS,
     FETCH_SENSORS_ERROR,
     FETCH_SENSORS_START,
@@ -150,5 +191,8 @@ export {
     REMOVE_SENSORS_AND_INDEXES,
     FETCH_STATIONS_ERROR,
     FETCH_STATIONS_START,
-    FETCH_STATIONS_SUCCESS
+    FETCH_STATIONS_SUCCESS,
+    FETCH_CHART_DATA_SUCCESS,
+    FETCH_CHART_DATA_ERROR,
+    FETCH_CHART_DATA_START
 }

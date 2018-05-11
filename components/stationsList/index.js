@@ -3,8 +3,8 @@ import Component from './stationsList';
 import {fetchDataForStations} from "../../actions/fetch";
 
 const mapStateToProps = (state) => {
-    const {data} = state;
-    return data;
+    const {stations} = state.data;
+    return {stations};
 };
 
 const mapDispatchToProps = (dispatch) => {
