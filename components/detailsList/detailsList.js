@@ -5,9 +5,20 @@ import {getIndex} from "../../utils/airIndex";
 
 export default class DetailsList extends Component {
 
-    componentDidMount() {
-        this.props.fetchDataForDetails();
+    state = {
+        isConnected: this.props.isConneted
+    };
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.isConnected !== prevState.isConnected) {
+            nextProps.fetchDataForDetails();
+            return {
+                isConnected: nextProps.isConnected
+            }
+        }
+        return null;
     }
+
 
     componentWillUnmount() {
         this.props.clearSensorsAndIndexes();

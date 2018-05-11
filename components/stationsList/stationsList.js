@@ -4,8 +4,18 @@ import ListViewComponent from '../../components/listView';
 import theme from '../../theme';
 
 export default class StationsList extends Component {
-    componentDidMount() {
-        this.props.fetchDataForStations();
+    state = {
+        isConnected: this.props.isConnected
+    };
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.isConnected !== prevState.isConnected) {
+            nextProps.fetchDataForStations();
+            return {
+                isConnected: nextProps.isConnected
+            }
+        }
+        return null;
     }
 
     render() {
