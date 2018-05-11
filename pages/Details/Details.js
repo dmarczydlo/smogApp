@@ -5,6 +5,7 @@ import theme from '../../theme';
 import ImagesUri from '../../assets/air.jpg';
 
 export default class Home extends React.Component {
+
     static navigationOptions = ({navigation}) => {
         const {params} = navigation.state;
 
