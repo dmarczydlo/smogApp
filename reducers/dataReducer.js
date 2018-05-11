@@ -11,7 +11,8 @@ import {
     FETCH_STATIONS_ERROR,
     FETCH_CHART_DATA_START,
     FETCH_CHART_DATA_ERROR,
-    FETCH_CHART_DATA_SUCCESS
+    FETCH_CHART_DATA_SUCCESS,
+    SET_INTERNET_CONNECTION
 } from "../actions/fetch";
 
 const initialState = {
@@ -34,7 +35,8 @@ const initialState = {
         fetching: false,
         source: [],
         error: ''
-    }
+    },
+    isConnected: false
 };
 
 const setStart = (object, state) => {
@@ -104,6 +106,12 @@ const dataReducer = (state = initialState, action) => {
         case REMOVE_SENSORS_AND_INDEXES: {
             return {
                 ...state, sensors: initialState.sensors, indexes: initialState.indexes
+            }
+        }
+
+        case SET_INTERNET_CONNECTION: {
+            return {
+                ...state, isConnected: action.isConnected
             }
         }
 

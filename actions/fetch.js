@@ -20,6 +20,7 @@ const FETCH_CHART_DATA_SUCCESS = 'FETCH_CHART_DATA_SUCCESS';
 const FETCH_CHART_DATA_ERROR = 'FETCH_CHART_DATA_ERROR';
 
 const REMOVE_SENSORS_AND_INDEXES = 'REMOVE_SENSORS_AND_INDEXES';
+const SET_INTERNET_CONNECTION = 'SET_INTERNET_CONNECTION';
 
 
 const setFetchSensorStart = () => {
@@ -114,6 +115,19 @@ const clearSensorsAndIndexes = () => {
     };
 };
 
+const setInternetConnection = (isConnected) => {
+    return {
+        type: SET_INTERNET_CONNECTION,
+        isConnected
+    };
+};
+
+const setIntenetConnectionForApp = (isConnected) => {
+    return (dispatch) => {
+        dispatch(setInternetConnection(isConnected));
+    };
+};
+
 const fetchDataForStations = () => {
     return (dispatch) => {
         dispatch(setFetchStationsStart());
@@ -182,6 +196,7 @@ export {
     clearSensorsAndIndexes,
     fetchDataForStations,
     fetchChartData,
+    setIntenetConnectionForApp,
     FETCH_SENSORS_SUCCESS,
     FETCH_SENSORS_ERROR,
     FETCH_SENSORS_START,
@@ -194,5 +209,6 @@ export {
     FETCH_STATIONS_SUCCESS,
     FETCH_CHART_DATA_SUCCESS,
     FETCH_CHART_DATA_ERROR,
-    FETCH_CHART_DATA_START
+    FETCH_CHART_DATA_START,
+    SET_INTERNET_CONNECTION
 }

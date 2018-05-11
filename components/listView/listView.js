@@ -21,10 +21,10 @@ export default class ListViewComponent extends Component {
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        const {dataSource, filterBy, filter} = nextProps;
-        if (nextProps.dataSource) {
+        const {object, filterBy, filter} = nextProps;
+        if (object.source) {
             return {
-                dataSource: prevState.dataSource.cloneWithRows(filter ? filterData(dataSource, filterBy, prevState.search) : nextProps.dataSource)
+                dataSource: prevState.dataSource.cloneWithRows(filter ? filterData(object.source, filterBy, prevState.search) : object.source)
             }
         }
     }
@@ -47,18 +47,17 @@ export default class ListViewComponent extends Component {
     };
 
     onChangeSearch = (search) => {
-        const {dataSource, filterBy} = this.props;
+        const {object, filterBy} = this.props;
         this.setState({
             search,
-            dataSource: this.state.dataSource.cloneWithRows(filterData(dataSource, filterBy, this.state.search))
+            dataSource: this.state.dataSource.cloneWithRows(filterData(object.source, filterBy, this.state.search))
         });
     };
 
 
     render() {
         const {search, dataSource} = this.state;
-        const {navigationTo, header, col1, col2, customRenderRow, filter, filterBy} = this.props;
-
+        const {navigationTo, header, col1, col2, customRenderRow, filter, object} = this.props;
         return (
             <View>
                 {header && <Text style={theme.subHeader}>{header}</Text>}
@@ -70,7 +69,8 @@ export default class ListViewComponent extends Component {
                         onChangeText={this.onChangeSearch}
                     />
                     }
-                    {dataSource.getRowCount() ? <ListView
+                    {!object.fetching ? <ListView
+                            enableEmptySections={true}
                             dataSource={dataSource}
                             renderRow={(rowData) => customRenderRow ? customRenderRow(rowData) : this.renderRow(rowData, col1, col2, navigationTo)}
                         /> :
@@ -93,10 +93,7 @@ const styles = StyleSheet.create({
 
 ListViewComponent.propTypes = {
     header: PropTypes.string,
-    dataSource: PropTypes.oneOfType([
-        PropTypes.array,
-        PropTypes.object
-    ]).isRequired,
+    object: PropTypes.object.isRequired,
     col1: PropTypes.string.isRequired,
     col2: PropTypes.string,
     navigationTo: PropTypes.string,

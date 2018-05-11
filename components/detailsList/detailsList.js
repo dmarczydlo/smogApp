@@ -5,9 +5,20 @@ import {getIndex} from "../../utils/airIndex";
 
 export default class DetailsList extends Component {
 
-    componentDidMount() {
-        this.props.fetchDataForDetails();
+    state = {
+        isConnected: this.props.isConneted
+    };
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.isConnected !== prevState.isConnected) {
+            nextProps.fetchDataForDetails();
+            return {
+                isConnected: nextProps.isConnected
+            }
+        }
+        return null;
     }
+
 
     componentWillUnmount() {
         this.props.clearSensorsAndIndexes();
@@ -41,9 +52,9 @@ export default class DetailsList extends Component {
                 vertical
                 pagingEnabled
             >
-                <ListViewComponent header='Dostępne sensory' dataSource={sensors.source}
+                <ListViewComponent header='Dostępne sensory' object={sensors}
                                    col1='param.paramName' navigationTo='Graph' navigation={navigation}/>
-                <ListViewComponent header='Status' dataSource={indexes.source} col1='label' col2='value'
+                <ListViewComponent header='Status' object={indexes} col1='label' col2='value'
                                    customRenderRow={this.customRenderRow}/>
             </ScrollView>
         );
