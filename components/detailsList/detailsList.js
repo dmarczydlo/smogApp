@@ -41,9 +41,9 @@ export default class DetailsList extends Component {
                 vertical
                 pagingEnabled
             >
-                <ListViewComponent header='Dostępne sensory' dataSource={sensors.source}
+                <ListViewComponent header='Dostępne sensory' object={sensors}
                                    col1='param.paramName' navigationTo='Graph' navigation={navigation}/>
-                <ListViewComponent header='Status' dataSource={indexes.source} col1='label' col2='value'
+                <ListViewComponent header='Status' object={indexes} col1='label' col2='value'
                                    customRenderRow={this.customRenderRow}/>
             </ScrollView>
         );

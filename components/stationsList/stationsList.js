@@ -13,7 +13,7 @@ export default class StationsList extends Component {
         return (
             <View style={theme.container}>
                 <Text style={theme.subHeader}>Dostępne stacje pomiarowe</Text>
-                <ListViewComponent dataSource={stations.source}
+                <ListViewComponent object={stations}
                                    col1='stationName'
                                    navigationTo='Details'
                                    navigation={navigation}
