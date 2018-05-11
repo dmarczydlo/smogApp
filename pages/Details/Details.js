@@ -1,8 +1,8 @@
 import React from 'react';
 import {AppRegistry, ImageBackground, View} from 'react-native';
-import DetailsList from '../components/detailsList';
-import theme from '../theme';
-import ImagesUri from '../assets/air.jpg';
+import DetailsList from '../../components/detailsList';
+import theme from '../../theme';
+import ImagesUri from '../../assets/air.jpg';
 
 export default class Home extends React.Component {
     static navigationOptions = ({navigation}) => {
