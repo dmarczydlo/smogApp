@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {
     ActivityIndicator,
     AppRegistry,
@@ -6,15 +6,15 @@ import {
     View
 } from 'react-native'
 
-export default class Loader extends Component {
-    render() {
-        return (
-            <View style={[styles.container, styles.horizontal]}>
-                <ActivityIndicator size="large" color="#0000ff" />
-            </View>
-        )
-    }
-}
+const Loader = () => {
+    return (
+        <View style={[styles.container, styles.horizontal]}>
+            <ActivityIndicator size="large" color="#0000ff"/>
+        </View>
+    )
+};
+
+export default Loader;
 
 const styles = StyleSheet.create({
     container: {

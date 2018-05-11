@@ -4,8 +4,9 @@ import StationsList from '../../components/stationsList';
 import ImagesUri from '../../assets/air.jpg';
 
 export default class Home extends React.Component {
+
     static navigationOptions = {
-        title: 'SmogApp - jakość powietrza'
+        title: 'SmogApp'
     };
 
     render() {

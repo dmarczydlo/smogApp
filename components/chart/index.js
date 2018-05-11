@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AppRegistry, StyleSheet, ScrollView} from 'react-native';
+import {AppRegistry, ScrollView} from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
 import axios from 'axios';
 import {parse} from "../../utils/object";
