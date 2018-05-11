@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {AppRegistry, View, Text} from 'react-native';
 import ListViewComponent from '../../components/listView';
-import {Button} from 'react-native';
 import theme from '../../theme';
 
 export default class StationsList extends Component {
@@ -9,10 +8,6 @@ export default class StationsList extends Component {
         isConnected: this.props.isConnected,
         latitude: null,
         longitude: null,
-        filterBy: 'stationName',
-        disabled: true,
-        query: [],
-        filterMethod: 'like'
     };
 
     watchID = null;
@@ -50,37 +45,23 @@ export default class StationsList extends Component {
         return null;
     }
 
-    onButtonPress = () => {
-        const {latitude, longitude} = this.state;
-        if (latitude && longitude) {
-            this.setState({
-                query: [latitude, longitude],
-                filterBy: ['gegrLat', 'gegrLon'],
-                filterMethod: 'distance'
-            })
-        }
-    };
-
     render() {
-        const {filterBy, query, disabled, filterMethod} = this.state;
+        const {latitude, longitude} = this.state;
         const {navigation, stations} = this.props;
         return (
             <View style={theme.container}>
                 <Text style={theme.subHeader}>Dostępne stacje pomiarowe</Text>
-                <Button
-                    onPress={this.onButtonPress}
-                    title="Lokalizacja"
-                    color="#841584"
-                    disabled={disabled}
-                />
                 <ListViewComponent object={stations}
                                    col1='stationName'
                                    navigationTo='Details'
                                    navigation={navigation}
                                    filter={true}
-                                   filterBy={filterBy}
-                                   query={query}
-                                   filterMethod={filterMethod}
+                                   filterBy={'stationName'}
+                                   location={true}
+                                   locationData={{
+                                       latitude,
+                                       longitude
+                                   }}
                 />
             </View>
         );

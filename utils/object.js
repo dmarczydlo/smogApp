@@ -24,11 +24,6 @@ const parse = (data) => {
 
 const filterData = (data, filterBy, queryValue, method = 'like') => {
     let ret = [];
-    console.log('filter')
-    console.log('query', queryValue);
-    console.log(method);
-    console.log(filterBy);
-
     switch (method) {
         case 'like': {
             ret = data.filter(element => element[filterBy].toUpperCase().indexOf(queryValue.toUpperCase()) >= 0);

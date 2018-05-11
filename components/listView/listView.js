@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {ListView, StyleSheet, Text, View, TouchableHighlight, AppRegistry, TextInput} from 'react-native';
+import {ListView, StyleSheet, Text, View, TouchableHighlight, AppRegistry, TextInput, Button} from 'react-native';
 import PropTypes from 'prop-types';
 import {getData, filterData} from "../../utils/object";
 import Loader from '../loader';
@@ -54,10 +54,22 @@ export default class ListViewComponent extends Component {
         });
     };
 
+    onButtonPress = () => {
+        const {object} = this.props;
+        const {latitude, longitude} = this.props.locationData;
+
+        if (latitude && longitude) {
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(filterData(object.source,  ['gegrLat', 'gegrLon'], [latitude, longitude], 'distance'))
+            });
+        }
+    };
+
 
     render() {
+
         const {search, dataSource} = this.state;
-        const {navigationTo, header, col1, col2, customRenderRow, filter, object} = this.props;
+        const {navigationTo, header, col1, col2, customRenderRow, filter, object, location, locationData} = this.props;
         return (
             <View>
                 {header && <Text style={theme.subHeader}>{header}</Text>}
@@ -69,6 +81,14 @@ export default class ListViewComponent extends Component {
                         onChangeText={this.onChangeSearch}
                     />
                     }
+                    {filter && location && <Button
+                        disabled={locationData.latitude === null}
+                        onPress={this.onButtonPress}
+                        title="Lokalizacja"
+                        color="#841584"
+                    />}
+
+
                     {!object.fetching ? <ListView
                             enableEmptySections={true}
                             dataSource={dataSource}
@@ -100,9 +120,14 @@ ListViewComponent.propTypes = {
     navigation: PropTypes.object,
     customRenderRow: PropTypes.func,
     filter: PropTypes.bool,
-    filterBy: PropTypes.string,
+    filterBy: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.array,
+    ]),
     query: PropTypes.array,
-    filterMethod: PropTypes.string
+    filterMethod: PropTypes.string,
+    location: PropTypes.bool,
+    locationData: PropTypes.object
 };
 
 ListViewComponent.defaultProps = {
@@ -113,7 +138,9 @@ ListViewComponent.defaultProps = {
     filter: false,
     filterBy: '',
     query: [],
-    filterMethod: 'like'
+    filterMethod: 'like',
+    location: false,
+    locationData: {}
 };
 
 AppRegistry.registerComponent('ListViewComponent', () => ListViewComponent);
