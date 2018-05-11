@@ -1,3 +1,5 @@
+import {measure} from "./distance";
+
 const isObject = (value) => value && typeof value === 'object' && value.constructor === Object;
 
 const getData = (data, param) => {
@@ -20,8 +22,25 @@ const parse = (data) => {
     }, []);
 };
 
-const filterData = (data, filterBy, queryValue) => {
-    return data.filter(element => element[filterBy].toUpperCase().indexOf(queryValue.toUpperCase()) >= 0);
+const filterData = (data, filterBy, queryValue, method = 'like') => {
+    let ret = [];
+    console.log('filter')
+    console.log('query', queryValue);
+    console.log(method);
+    console.log(filterBy);
+
+    switch (method) {
+        case 'like': {
+            ret = data.filter(element => element[filterBy].toUpperCase().indexOf(queryValue.toUpperCase()) >= 0);
+        }
+            break;
+
+        case 'distance': {
+            const compare = 70000;
+            ret = data.filter(element => measure(element[filterBy[0]], element[filterBy[1]], queryValue[0], queryValue[1]) <= compare);
+        }
+    }
+    return ret;
 };
 
 export {

@@ -21,10 +21,10 @@ export default class ListViewComponent extends Component {
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        const {object, filterBy, filter} = nextProps;
+        const {object, filterBy, filter, filterMethod} = nextProps;
         if (object.source) {
             return {
-                dataSource: prevState.dataSource.cloneWithRows(filter ? filterData(object.source, filterBy, prevState.search) : object.source)
+                dataSource: prevState.dataSource.cloneWithRows(filter ? filterData(object.source, filterBy, nextProps.query.length ? nextProps.query : prevState.search, filterMethod) : object.source)
             }
         }
     }
@@ -50,7 +50,7 @@ export default class ListViewComponent extends Component {
         const {object, filterBy} = this.props;
         this.setState({
             search,
-            dataSource: this.state.dataSource.cloneWithRows(filterData(object.source, filterBy, this.state.search))
+            dataSource: this.state.dataSource.cloneWithRows(filterData(object.source, filterBy, search))
         });
     };
 
@@ -100,7 +100,9 @@ ListViewComponent.propTypes = {
     navigation: PropTypes.object,
     customRenderRow: PropTypes.func,
     filter: PropTypes.bool,
-    filterBy: PropTypes.string
+    filterBy: PropTypes.string,
+    query: PropTypes.array,
+    filterMethod: PropTypes.string
 };
 
 ListViewComponent.defaultProps = {
@@ -109,7 +111,9 @@ ListViewComponent.defaultProps = {
     navigation: {},
     customRenderRow: null,
     filter: false,
-    filterBy: ''
+    filterBy: '',
+    query: [],
+    filterMethod: 'like'
 };
 
 AppRegistry.registerComponent('ListViewComponent', () => ListViewComponent);
