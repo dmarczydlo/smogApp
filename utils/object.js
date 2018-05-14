@@ -22,6 +22,19 @@ const parse = (data) => {
     }, []);
 };
 
+const markersParse = (data) => {
+    return data.reduce((acc, currentValue) => {
+        return [...acc, {
+            latlng: {
+                latitude: parseFloat(currentValue.gegrLat),
+                longitude: parseFloat(currentValue.gegrLon)
+            }, title: currentValue.stationName,
+            description: `${currentValue.city.name} - ${currentValue.addressStreet}`,
+            id: currentValue.id
+        }]
+    }, []);
+};
+
 const filterData = (data, filterBy, queryValue, method = 'like') => {
     let ret = [];
     switch (method) {
@@ -42,5 +55,6 @@ export {
     isObject,
     getData,
     parse,
-    filterData
+    filterData,
+    markersParse
 }

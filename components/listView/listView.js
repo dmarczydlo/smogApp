@@ -1,7 +1,18 @@
 import React, {Component, Fragment} from 'react';
-import {ListView, StyleSheet, Text, View, TouchableHighlight, AppRegistry, TextInput, Button} from 'react-native';
+import {
+    ListView,
+    StyleSheet,
+    Text,
+    View,
+    TouchableHighlight,
+    AppRegistry,
+    TextInput,
+    Button,
+    Modal
+} from 'react-native';
+import Map from '../map';
 import PropTypes from 'prop-types';
-import {getData, filterData} from "../../utils/object";
+import {getData, filterData, markersParse} from "../../utils/object";
 import Loader from '../loader';
 import theme from '../../theme';
 
@@ -16,6 +27,7 @@ const child = (rowData, col1, col2 = '') => {
 export default class ListViewComponent extends Component {
 
     state = {
+        showModal: false,
         search: '',
         dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     };
@@ -60,15 +72,19 @@ export default class ListViewComponent extends Component {
 
         if (latitude && longitude) {
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(filterData(object.source,  ['gegrLat', 'gegrLon'], [latitude, longitude], 'distance'))
+                showModal: true
+                // dataSource: this.state.dataSource.cloneWithRows(filterData(object.source,  ['gegrLat', 'gegrLon'], [latitude, longitude], 'distance'))
             });
         }
     };
 
+    componentWillUnmount() {
+        this.setState({showModal: false});
+    }
+
 
     render() {
-
-        const {search, dataSource} = this.state;
+        const {search, dataSource, showModal} = this.state;
         const {navigationTo, header, col1, col2, customRenderRow, filter, object, location, locationData} = this.props;
         return (
             <View>
@@ -87,8 +103,17 @@ export default class ListViewComponent extends Component {
                         title="Lokalizacja"
                         color="#841584"
                     />}
-
-
+                    <Modal
+                        animationType="slide"
+                        transparent={false}
+                        visible={showModal}
+                        onRequestClose={() => {
+                            this.setState({showModal: false});
+                        }}>
+                        <View>
+                            <Map locationData={locationData} markers={markersParse(object.source)}/>
+                        </View>
+                    </Modal>
                     {!object.fetching ? <ListView
                             enableEmptySections={true}
                             dataSource={dataSource}
