@@ -1,7 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {StyleSheet, Button, Dimensions, View, Text, Slider} from "react-native";
+import {StyleSheet, Dimensions, View, Text, Slider, AppRegistry} from "react-native";
+import Button from '../button';
 import MapView, {Circle, Marker} from 'react-native-maps';
+
+const buttonStyle = {
+    height: 25,
+    width: 25
+};
+
 
 export default class MapComponent extends Component {
 
@@ -10,7 +17,13 @@ export default class MapComponent extends Component {
         radius: this.props.radius
     };
 
-    onPressFilterBySelected = () => {
+    onPressFilterBySelectedRadius = () => {
+        this.props.onClose(this.state.radius);
+    };
+
+    onPressFilterBySelectedMarker = () => {
+        this.props.onClose();
+        this.props.navigation.navigate('Details', this.state.selectedMarker);
     };
 
     onMarkerClick = (marker) => {
@@ -28,7 +41,6 @@ export default class MapComponent extends Component {
     render() {
         const {locationData, markers} = this.props;
         const {radius, selectedMarker} = this.state;
-        console.log(selectedMarker);
         return (
             <View accessible={true} style={styles.container}>
                 <MapView
@@ -67,18 +79,30 @@ export default class MapComponent extends Component {
                         maximumValue={1000}
                         onValueChange={this.updateRadius}
                         value={radius}
+                        thumbTintColor={'#841584'}
+                        minimumTrackTintColor={'#841584'}
                     />
-                    <Text>
-                        Wybrano: {selectedMarker ? selectedMarker.title : 'brak'}
-                    </Text>
-                    <Text>
-                        Zasieg: {radius} km
-                    </Text>
-                    <Button
-                        onPress={this.onPressFilterBySelected}
-                        title="Wybierz"
-                        color="#841584"
-                    />
+                    <View style={styles.detailsContainer}>
+                        <Text style={styles.text}>
+                            Zasieg: {radius} km
+                        </Text>
+                        <Button
+                            style={buttonStyle}
+                            onPress={this.onPressFilterBySelectedRadius}
+                            icon='check'
+                        />
+                    </View>
+                    <View style={styles.detailsContainer}>
+                        <Text style={styles.text}>
+                            Wybrano: {selectedMarker ? selectedMarker.title : 'brak'}
+                        </Text>
+                        <Button
+                            style={buttonStyle}
+                            onPress={this.onPressFilterBySelectedMarker}
+                            icon='check'
+                        />
+                    </View>
+
                 </View>
             </View>
         )
@@ -95,12 +119,21 @@ const styles = StyleSheet.create({
     },
     map: {
         ...StyleSheet.absoluteFillObject,
-        height: Dimensions.get('screen').height * 2 / 3,
+        height: Dimensions.get('screen').height - 150,
     },
     details: {
         width: Dimensions.get('screen').width,
-        height: Dimensions.get('screen').height * 1 / 3,
-        backgroundColor: 'red'
+        height: 150,
+        padding: 5
+    },
+    detailsContainer: {
+        flexDirection: 'row',
+        paddingTop: 5
+
+    },
+    text: {
+        alignItems: 'center',
+        marginRight: 10
     }
 });
 
@@ -108,9 +141,13 @@ MapComponent.propTypes = {
     locationData: PropTypes.object.isRequired,
     radius: PropTypes.number,
     markers: PropTypes.array,
+    navigation: PropTypes.object.isRequired,
+    onClose: PropTypes.func.isRequired
 };
 
 MapComponent.defaultProps = {
     radius: 100,
     markers: []
 };
+
+AppRegistry.registerComponent('Map', () => MapComponent);

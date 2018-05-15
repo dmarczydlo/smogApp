@@ -44,7 +44,7 @@ const filterData = (data, filterBy, queryValue, method = 'like') => {
             break;
 
         case 'distance': {
-            const compare = 70000;
+            const compare = queryValue[2] * 1000;
             ret = data.filter(element => measure(element[filterBy[0]], element[filterBy[1]], queryValue[0], queryValue[1]) <= compare);
         }
     }

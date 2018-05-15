@@ -7,9 +7,9 @@ import {
     TouchableHighlight,
     AppRegistry,
     TextInput,
-    Button,
     Modal
 } from 'react-native';
+import Button from '../button';
 import Map from '../map';
 import PropTypes from 'prop-types';
 import {getData, filterData, markersParse} from "../../utils/object";
@@ -67,25 +67,28 @@ export default class ListViewComponent extends Component {
     };
 
     onButtonPress = () => {
-        const {object} = this.props;
-        const {latitude, longitude} = this.props.locationData;
-
-        if (latitude && longitude) {
-            this.setState({
-                showModal: true
-                // dataSource: this.state.dataSource.cloneWithRows(filterData(object.source,  ['gegrLat', 'gegrLon'], [latitude, longitude], 'distance'))
-            });
-        }
+        this.setState({
+            showModal: true
+        });
     };
 
-    componentWillUnmount() {
-        this.setState({showModal: false});
-    }
+    onCloseModal = (radius) => {
+        if (radius) {
+            const {object} = this.props;
+            const {latitude, longitude} = this.props.locationData;
 
+            if (latitude && longitude) {
+                this.setState({
+                    dataSource: this.state.dataSource.cloneWithRows(filterData(object.source, ['gegrLat', 'gegrLon'], [latitude, longitude, radius], 'distance'))
+                });
+            }
+        }
+        this.setState({showModal: false});
+    };
 
     render() {
         const {search, dataSource, showModal} = this.state;
-        const {navigationTo, header, col1, col2, customRenderRow, filter, object, location, locationData} = this.props;
+        const {navigationTo, navigation, header, col1, col2, customRenderRow, filter, object, location, locationData} = this.props;
         return (
             <View>
                 {header && <Text style={theme.subHeader}>{header}</Text>}
@@ -100,20 +103,18 @@ export default class ListViewComponent extends Component {
                     {filter && location && <Button
                         disabled={locationData.latitude === null}
                         onPress={this.onButtonPress}
-                        title="Lokalizacja"
-                        color="#841584"
+                        icon='location'
                     />}
-                    <Modal
+                    {filter && location && <Modal
                         animationType="slide"
                         transparent={false}
                         visible={showModal}
-                        onRequestClose={() => {
-                            this.setState({showModal: false});
-                        }}>
+                        onRequestClose={this.onCloseModal}>
                         <View>
-                            <Map locationData={locationData} markers={markersParse(object.source)}/>
+                            <Map onClose={this.onCloseModal} navigation={navigation} locationData={locationData}
+                                 markers={markersParse(object.source)}/>
                         </View>
-                    </Modal>
+                    </Modal>}
                     {!object.fetching ? <ListView
                             enableEmptySections={true}
                             dataSource={dataSource}
