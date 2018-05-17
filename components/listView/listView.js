@@ -120,10 +120,9 @@ export default class ListViewComponent extends Component {
         return (
             <View>
                 <Fragment>
-                    <View style={styles.topContainer}>
+                    {filter && <View style={styles.topContainer}>
                         <View style={styles.search}>
-                            {showSearch &&
-                            <View style={styles.topContainer}>
+                            {showSearch && <View style={styles.topContainer}>
                                 <TextInput
                                     autoCorrect={false}
                                     style={styles.searchText}
@@ -142,23 +141,20 @@ export default class ListViewComponent extends Component {
                             }
                         </View>
                         <View style={styles.icons}>
-                            {filter &&
                             <Button
                                 onPress={this.onSearchPress}
                                 icon='search'
                                 style={icon}
 
                             />
-
-                            }
-                            {filter && location && <Button
+                            {location && <Button
                                 disabled={locationData.latitude === null}
                                 onPress={this.onButtonPress}
                                 icon='edit-location'
                                 style={icon}
                             />}
                         </View>
-                    </View>
+                    </View>}
 
                     {header && <Text style={theme.subHeader}>{header}</Text>}
                     {filter && location && <Modal
@@ -188,7 +184,7 @@ const styles = StyleSheet.create({
     item: {
         padding: 10,
         marginTop: 3,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#f9f9f9',
         alignItems: 'center',
     },
     icons: {

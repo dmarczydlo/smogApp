@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import {StyleSheet, Dimensions, View, Text, Slider, AppRegistry} from "react-native";
 import Button from '../button';
 import MapView, {Circle, Marker} from 'react-native-maps';
+import {mainColor, backColor} from "../../theme";
+import {convertHex} from "../../utils/theme";
 
 const buttonStyle = {
     height: 25,
-    width: 25
+    width: 25,
 };
 
 
@@ -22,10 +24,10 @@ export default class MapComponent extends Component {
     };
 
     onPressFilterBySelectedMarker = () => {
-        if(this.state.selectedMarker) {
+        if (this.state.selectedMarker) {
             this.props.onClose();
             this.props.navigation.navigate('Details', this.state.selectedMarker);
-        }else {
+        } else {
             alert('Wybierz stację pomiarową');
         }
     };
@@ -43,72 +45,73 @@ export default class MapComponent extends Component {
     };
 
     render() {
+        console.log(convertHex(mainColor, 10));
         const {locationData, markers} = this.props;
         const {radius, selectedMarker} = this.state;
         return (
-            <View accessible={true} style={styles.container}>
-                <MapView
-                    style={styles.map}
-                    initialRegion={{
-                        latitude: locationData.latitude || 0,
-                        longitude: locationData.longitude || 0,
-                        latitudeDelta: 3.5,
-                        longitudeDelta: 3.5,
-                    }}
-                    showsUserLocation={true}
-                    compass={true}
-                >
-                    <Circle
-                        center={{
+                <View accessible={true} style={styles.container}>
+                    <MapView
+                        style={styles.map}
+                        initialRegion={{
                             latitude: locationData.latitude || 0,
-                            longitude: locationData.longitude || 0
+                            longitude: locationData.longitude || 0,
+                            latitudeDelta: 3.5,
+                            longitudeDelta: 3.5,
                         }}
-                        radius={radius * 1000}
-                        fillColor="rgba(132, 21, 132, 0.3)"
-                        strokeColor="rgba(132, 21, 132, 0.4)"/>
+                        showsUserLocation={true}
+                        compass={true}
+                    >
+                        <Circle
+                            center={{
+                                latitude: locationData.latitude || 0,
+                                longitude: locationData.longitude || 0
+                            }}
+                            radius={radius * 1000}
+                            fillColor={convertHex(backColor, 30)}
+                            strokeColor={convertHex(backColor, 30)}/>
 
-                    {markers && markers.map((marker, index) => (
-                        <Marker
-                            key={index}
-                            coordinate={marker.latlng}
-                            title={marker.title}
-                            description={marker.description}
-                            onPress={() => this.onMarkerClick(marker)}
+                        {markers && markers.map((marker, index) => (
+                            <Marker
+                                key={index}
+                                coordinate={marker.latlng}
+                                title={marker.title}
+                                description={marker.description}
+                                onPress={() => this.onMarkerClick(marker)}
+                            />
+                        ))}
+                    </MapView>
+                    <View style={styles.details}>
+                        <Slider
+                            step={1}
+                            maximumValue={1000}
+                            onValueChange={this.updateRadius}
+                            value={radius}
+                            thumbTintColor={backColor}
+                            minimumTrackTintColor={backColor}
                         />
-                    ))}
-                </MapView>
-                <View style={styles.details}>
-                    <Slider
-                        step={1}
-                        maximumValue={1000}
-                        onValueChange={this.updateRadius}
-                        value={radius}
-                        thumbTintColor={'#841584'}
-                        minimumTrackTintColor={'#841584'}
-                    />
-                    <View style={styles.detailsContainer}>
-                        <Text style={styles.text}>
-                            Zasieg: {radius} km
-                        </Text>
-                        <Button
-                            style={buttonStyle}
-                            onPress={this.onPressFilterBySelectedRadius}
-                            icon='check'
-                        />
-                    </View>
-                    <View style={styles.detailsContainer}>
-                        <Text style={styles.text}>
-                            Wybrano: {selectedMarker ? selectedMarker.title : 'brak'}
-                        </Text>
-                        <Button
-                            style={buttonStyle}
-                            onPress={this.onPressFilterBySelectedMarker}
-                            icon='check'
-                        />
-                    </View>
+                        <View style={styles.detailsContainer}>
+                            <Text style={styles.text}>
+                                Zasieg: {radius} km
+                            </Text>
+                            <Button
+                                style={buttonStyle}
+                                onPress={this.onPressFilterBySelectedRadius}
+                                icon='check'
+                            />
+                        </View>
+                        <View style={styles.detailsContainer}>
+                            <Text style={styles.text}>
+                                Wybrano: {selectedMarker ? selectedMarker.title : 'brak'}
+                            </Text>
+                            <Button
+                                style={buttonStyle}
+                                onPress={this.onPressFilterBySelectedMarker}
+                                icon='check'
+                            />
+                        </View>
 
+                    </View>
                 </View>
-            </View>
         )
     }
 }
@@ -128,7 +131,8 @@ const styles = StyleSheet.create({
     details: {
         width: Dimensions.get('screen').width,
         height: 160,
-        padding: 5
+        padding: 5,
+        backgroundColor: convertHex(backColor, 10),
     },
     detailsContainer: {
         flexDirection: 'row',

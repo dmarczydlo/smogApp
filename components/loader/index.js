@@ -5,11 +5,12 @@ import {
     StyleSheet,
     View
 } from 'react-native'
+import {mainColor} from '../../theme';
 
 const Loader = () => {
     return (
         <View style={[styles.container, styles.horizontal]}>
-            <ActivityIndicator size="large" color="#0000ff"/>
+            <ActivityIndicator size="large" color={mainColor} />
         </View>
     )
 };
