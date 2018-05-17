@@ -50,8 +50,8 @@ export default class StationsList extends Component {
         const {navigation, stations} = this.props;
         return (
             <View style={theme.container}>
-                <Text style={theme.subHeader}>Dostępne stacje pomiarowe</Text>
                 <ListViewComponent object={stations}
+                                   header={'Dostępne stacje pomiarowe'}
                                    col1='stationName'
                                    navigationTo='Details'
                                    navigation={navigation}

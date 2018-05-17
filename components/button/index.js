@@ -7,10 +7,10 @@ import {
     TouchableHighlight,
     Text
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const defaultValue = {
-    background: '#841584',
+    backgroundColor: '#841584',
     height: 50,
     color: '#FAFAFA',
     fontSize: 20,
@@ -20,7 +20,7 @@ const defaultValue = {
 const ButtonComponent = ({onPress, icon, text, style, disabled}) => {
 
     const styleProps = {
-        backgroundColor: disabled ? '#cccccc' : style.background || defaultValue.background,
+        backgroundColor: disabled ? '#cccccc' : style.backgroundColor || defaultValue.backgroundColor,
         height: style.height || defaultValue.height,
         width: style.width || defaultValue.width
     };

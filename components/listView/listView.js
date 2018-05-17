@@ -24,10 +24,23 @@ const child = (rowData, col1, col2 = '') => {
     );
 };
 
+const icon = {
+    width: '50%',
+    backgroundColor: 'rgba(52, 52, 52, 0.0)',
+    fontSize: 30
+};
+
+const close = {
+    width: '15%',
+    backgroundColor: 'rgba(52, 52, 52, 0.0)',
+    fontSize: 30
+};
+
 export default class ListViewComponent extends Component {
 
     state = {
         showModal: false,
+        showSearch: false,
         search: '',
         dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     };
@@ -72,8 +85,23 @@ export default class ListViewComponent extends Component {
         });
     };
 
+    onSearchPress = () => {
+        this.setState({
+            showSearch: true
+        });
+    };
+
+    onSearchClose = () => {
+        const {object, filterBy} = this.props;
+        this.setState({
+            showSearch: false,
+            search: '',
+            dataSource: this.state.dataSource.cloneWithRows(filterData(object.source, filterBy, ''))
+        });
+    };
+
     onCloseModal = (radius) => {
-        if (radius) {
+        if (Number.isInteger(radius)) {
             const {object} = this.props;
             const {latitude, longitude} = this.props.locationData;
 
@@ -87,24 +115,52 @@ export default class ListViewComponent extends Component {
     };
 
     render() {
-        const {search, dataSource, showModal} = this.state;
+        const {showSearch, search, dataSource, showModal} = this.state;
         const {navigationTo, navigation, header, col1, col2, customRenderRow, filter, object, location, locationData} = this.props;
         return (
             <View>
-                {header && <Text style={theme.subHeader}>{header}</Text>}
                 <Fragment>
-                    {filter && <TextInput
-                        autoCorrect={false}
-                        placeholder="Szukaj"
-                        value={search}
-                        onChangeText={this.onChangeSearch}
-                    />
-                    }
-                    {filter && location && <Button
-                        disabled={locationData.latitude === null}
-                        onPress={this.onButtonPress}
-                        icon='location'
-                    />}
+                    <View style={styles.topContainer}>
+                        <View style={styles.search}>
+                            {showSearch &&
+                            <View style={styles.topContainer}>
+                                <TextInput
+                                    autoCorrect={false}
+                                    style={styles.searchText}
+                                    placeholderTextColor={'white'}
+                                    underlineColorAndroid={'white'}
+                                    placeholder="Szukaj"
+                                    value={search}
+                                    onChangeText={this.onChangeSearch}
+                                />
+                                <Button
+                                    onPress={this.onSearchClose}
+                                    icon='close'
+                                    style={close}
+
+                                /></View>
+                            }
+                        </View>
+                        <View style={styles.icons}>
+                            {filter &&
+                            <Button
+                                onPress={this.onSearchPress}
+                                icon='search'
+                                style={icon}
+
+                            />
+
+                            }
+                            {filter && location && <Button
+                                disabled={locationData.latitude === null}
+                                onPress={this.onButtonPress}
+                                icon='edit-location'
+                                style={icon}
+                            />}
+                        </View>
+                    </View>
+
+                    {header && <Text style={theme.subHeader}>{header}</Text>}
                     {filter && location && <Modal
                         animationType="slide"
                         transparent={false}
@@ -134,6 +190,23 @@ const styles = StyleSheet.create({
         marginTop: 3,
         backgroundColor: '#ffffff',
         alignItems: 'center',
+    },
+    icons: {
+        width: '30%',
+        flexDirection: 'row',
+        marginLeft: 'auto',
+        height: 50
+    },
+    search: {
+        width: '75%',
+        height: 50
+    },
+    searchText: {
+        width: '80%',
+        color: '#ffffff'
+    },
+    topContainer: {
+        flexDirection: 'row',
     }
 });
 

@@ -22,8 +22,12 @@ export default class MapComponent extends Component {
     };
 
     onPressFilterBySelectedMarker = () => {
-        this.props.onClose();
-        this.props.navigation.navigate('Details', this.state.selectedMarker);
+        if(this.state.selectedMarker) {
+            this.props.onClose();
+            this.props.navigation.navigate('Details', this.state.selectedMarker);
+        }else {
+            alert('Wybierz stację pomiarową');
+        }
     };
 
     onMarkerClick = (marker) => {
@@ -119,11 +123,11 @@ const styles = StyleSheet.create({
     },
     map: {
         ...StyleSheet.absoluteFillObject,
-        height: Dimensions.get('screen').height - 150,
+        height: Dimensions.get('screen').height - 160,
     },
     details: {
         width: Dimensions.get('screen').width,
-        height: 150,
+        height: 160,
         padding: 5
     },
     detailsContainer: {
