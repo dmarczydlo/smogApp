@@ -10,7 +10,7 @@ export default class Home extends React.Component {
         const {params} = navigation.state;
 
         return {
-            title: `Detale #${params.stationName}`
+            title: `Detale #${params.stationName || params.title}`
         }
     };
 

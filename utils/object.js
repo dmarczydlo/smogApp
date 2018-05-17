@@ -1,3 +1,5 @@
+import {measure} from "./distance";
+
 const isObject = (value) => value && typeof value === 'object' && value.constructor === Object;
 
 const getData = (data, param) => {
@@ -20,13 +22,39 @@ const parse = (data) => {
     }, []);
 };
 
-const filterData = (data, filterBy, queryValue) => {
-    return data.filter(element => element[filterBy].toUpperCase().indexOf(queryValue.toUpperCase()) >= 0);
+const markersParse = (data) => {
+    return data.reduce((acc, currentValue) => {
+        return [...acc, {
+            latlng: {
+                latitude: parseFloat(currentValue.gegrLat),
+                longitude: parseFloat(currentValue.gegrLon)
+            }, title: currentValue.stationName,
+            description: `${currentValue.city.name} - ${currentValue.addressStreet}`,
+            id: currentValue.id
+        }]
+    }, []);
+};
+
+const filterData = (data, filterBy, queryValue, method = 'like') => {
+    let ret = [];
+    switch (method) {
+        case 'like': {
+            ret = data.filter(element => element[filterBy].toUpperCase().indexOf(queryValue.toUpperCase()) >= 0);
+        }
+            break;
+
+        case 'distance': {
+            const compare = queryValue[2] * 1000;
+            ret = data.filter(element => measure(element[filterBy[0]], element[filterBy[1]], queryValue[0], queryValue[1]) <= compare);
+        }
+    }
+    return ret;
 };
 
 export {
     isObject,
     getData,
     parse,
-    filterData
+    filterData,
+    markersParse
 }

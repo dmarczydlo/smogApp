@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import Component from './listView';
+import Component from './map';
 
 const mapStateToProps = () => {
     return {};
