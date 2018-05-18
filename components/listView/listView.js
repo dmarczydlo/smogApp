@@ -183,7 +183,7 @@ export default class ListViewComponent extends Component {
 const styles = StyleSheet.create({
     item: {
         padding: 10,
-        marginTop: 3,
+        marginTop: 1,
         backgroundColor: '#f9f9f9',
         alignItems: 'center',
     },

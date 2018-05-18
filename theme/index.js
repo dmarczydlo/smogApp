@@ -1,7 +1,20 @@
 import {StyleSheet} from "react-native";
 
-export const  mainColor = '#f9f9f9';
+export const mainColor = '#f9f9f9';
 export const backColor = '#000000';
+
+export const getNavbar = (title) => {
+    return {
+        title,
+        headerStyle: {
+            backgroundColor: mainColor,
+        },
+        headerTintColor: backColor,
+        headerTitleStyle: {
+            fontWeight: 'normal',
+        }
+    }
+};
 
 
 const styles = StyleSheet.create({

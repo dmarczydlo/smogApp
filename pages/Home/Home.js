@@ -2,12 +2,12 @@ import React from 'react';
 import {AppRegistry, StyleSheet, Text, View, ImageBackground} from 'react-native';
 import StationsList from '../../components/stationsList';
 import ImagesUri from '../../assets/air.jpg';
+import {getNavbar} from "../../theme";
 
 export default class Home extends React.Component {
 
-    static navigationOptions = {
-        title: 'SmogApp'
-    };
+    static navigationOptions = getNavbar('SmogApp');
+
 
     render() {
         return (

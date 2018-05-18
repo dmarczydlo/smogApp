@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {AppRegistry, ScrollView, View, Text, StyleSheet} from 'react-native';
 import ListViewComponent from '../listView'
 import {getIndex} from "../../utils/airIndex";
+import {backColor, mainColor} from "../../theme";
 
 export default class DetailsList extends Component {
 
@@ -64,8 +65,8 @@ export default class DetailsList extends Component {
 const styles = StyleSheet.create({
     item: {
         padding: 10,
-        marginTop: 3,
-        backgroundColor: '#ffffff',
+        marginTop: 1,
+        backgroundColor: mainColor,
         alignItems: 'center',
         flex: 1,
         flexDirection: 'row'

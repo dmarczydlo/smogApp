@@ -1,6 +1,6 @@
 import React from 'react';
 import {AppRegistry, StyleSheet, Text, View, ImageBackground, Dimensions} from 'react-native';
-import theme from '../../theme';
+import theme, {getNavbar} from '../../theme';
 import Chart from '../../components/chart';
 import ImagesUri from '../../assets/air.jpg';
 import BestAir from '../../assets/best_air.jpg';
@@ -28,10 +28,7 @@ export default class Graph extends React.Component {
 
     static navigationOptions = ({navigation}) => {
         const {params} = navigation.state;
-
-        return {
-            title: params.param.paramName
-        }
+        return getNavbar(params.param.paramName)
     };
 
 
@@ -64,7 +61,7 @@ export default class Graph extends React.Component {
                         />
                     </View>
                     <View style={styles.bottom}>
-                        <Text style={theme.header}>{`Wykres dla ${param.paramName}`}</Text>
+                        <Text style={theme.subHeader}>{`Wykres dla ${param.paramName}`}</Text>
                         <Chart style={{flex: 2}} sensorId={id}/>
                     </View>
                 </View>
