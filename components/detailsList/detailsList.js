@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {AppRegistry, ScrollView, View, Text, StyleSheet} from 'react-native';
+import {AppRegistry, ScrollView, View, Text, StyleSheet, TouchableHighlight} from 'react-native';
 import ListViewComponent from '../listView'
 import {getIndex} from "../../utils/airIndex";
-import {backColor, mainColor} from "../../theme";
+import {mainColor} from "../../theme";
+import Icon from 'react-native-vector-icons/Feather';
 
 export default class DetailsList extends Component {
 
@@ -25,7 +26,7 @@ export default class DetailsList extends Component {
         this.props.clearSensorsAndIndexes();
     }
 
-    customRenderRow = (rowData) => {
+    customRenderStatusRow = (rowData) => {
         return (
             <View style={styles.item}>
                 <View style={{
@@ -46,17 +47,36 @@ export default class DetailsList extends Component {
         )
     };
 
+    onPress = (rowData, navigateTo) => {
+        this.props.navigation.navigate(navigateTo, rowData);
+    };
+
+    customRenderSensorsRow = (rowData) => {
+        return (
+            <TouchableHighlight onPress={() => this.onPress(rowData, 'Graph')}>
+                <View style={styles.item}>
+                    <View style={{width: '20%'}}>
+                        <Icon name={'wind'} style={{fontSize: 20}}/>
+                    </View>
+                    <View style={{width: '80%'}}>
+                        <Text>{rowData.param.paramName}</Text>
+                    </View>
+                </View>
+            </TouchableHighlight>
+        )
+    };
+
     render() {
-        const {navigation, sensors, indexes} = this.props;
+        const {sensors, indexes} = this.props;
         return (
             <ScrollView
                 vertical
                 pagingEnabled
             >
                 <ListViewComponent header='Dostępne sensory' object={sensors}
-                                   col1='param.paramName' navigationTo='Graph' navigation={navigation}/>
+                                   col1='param.paramName' customRenderRow={this.customRenderSensorsRow}/>
                 <ListViewComponent header='Status' object={indexes} col1='label' col2='value'
-                                   customRenderRow={this.customRenderRow}/>
+                                   customRenderRow={this.customRenderStatusRow}/>
             </ScrollView>
         );
     }

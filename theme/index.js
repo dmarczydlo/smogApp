@@ -2,6 +2,7 @@ import {StyleSheet} from "react-native";
 
 export const mainColor = '#f9f9f9';
 export const backColor = '#000000';
+export const backColorSecond = '#202020';
 
 export const getNavbar = (title) => {
     return {
@@ -38,6 +39,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: mainColor
     },
+    headerBox: {
+        color: mainColor,
+        marginTop: 10,
+        marginBottom: 5,
+        fontSize: 20,
+        textAlign: 'center'
+    }
 });
 
 export default styles;

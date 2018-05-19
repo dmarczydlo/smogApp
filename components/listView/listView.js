@@ -14,7 +14,7 @@ import Map from '../map';
 import PropTypes from 'prop-types';
 import {getData, filterData, markersParse} from "../../utils/object";
 import Loader from '../loader';
-import theme from '../../theme';
+import theme, {mainColor, backColor, backColorSecond} from '../../theme';
 
 const child = (rowData, col1, col2 = '') => {
     return (
@@ -118,7 +118,7 @@ export default class ListViewComponent extends Component {
         const {showSearch, search, dataSource, showModal} = this.state;
         const {navigationTo, navigation, header, col1, col2, customRenderRow, filter, object, location, locationData} = this.props;
         return (
-            <View>
+            <View style={styles.main}>
                 <Fragment>
                     {filter && <View style={styles.topContainer}>
                         <View style={styles.search}>
@@ -156,7 +156,7 @@ export default class ListViewComponent extends Component {
                         </View>
                     </View>}
 
-                    {header && <Text style={theme.subHeader}>{header}</Text>}
+                    {header && <View style={styles.headerBox}><Text style={theme.subHeader}>{header}</Text></View>}
                     {filter && location && <Modal
                         animationType="slide"
                         transparent={false}
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     item: {
         padding: 10,
         marginTop: 1,
-        backgroundColor: '#f9f9f9',
+        backgroundColor: mainColor,
         alignItems: 'center',
     },
     icons: {
@@ -195,14 +195,22 @@ const styles = StyleSheet.create({
     },
     search: {
         width: '75%',
-        height: 50
+        height: 50,
+        marginLeft: 10,
+        marginRight: 10
     },
     searchText: {
         width: '80%',
-        color: '#ffffff'
+        color: mainColor
     },
     topContainer: {
         flexDirection: 'row',
+    },
+    headerBox: {
+        backgroundColor: backColorSecond,
+    },
+    main: {
+        marginTop: 5,
     }
 });
 
