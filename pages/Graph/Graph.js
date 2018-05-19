@@ -2,7 +2,6 @@ import React from 'react';
 import {AppRegistry, StyleSheet, Text, View, ImageBackground, Dimensions} from 'react-native';
 import theme, {getNavbar} from '../../theme';
 import Chart from '../../components/chart';
-import ImagesUri from '../../assets/air.jpg';
 import BestAir from '../../assets/best_air.jpg';
 import BadAir from '../../assets/bad_air.jpg';
 
@@ -47,7 +46,6 @@ export default class Graph extends React.Component {
         const {id, param} = navigation.state.params;
         const {width} = Dimensions.get('screen');
         return (
-            <ImageBackground source={ImagesUri} style={theme.background} resizeMode='cover'>
                 <View style={theme.container}>
                     <View style={styles.top}>
                         <Carousel
@@ -65,7 +63,6 @@ export default class Graph extends React.Component {
                         <Chart style={{flex: 2}} sensorId={id}/>
                     </View>
                 </View>
-            </ImageBackground>
         );
     }
 }

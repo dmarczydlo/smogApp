@@ -1,8 +1,7 @@
 import React from 'react';
-import {AppRegistry, ImageBackground, View} from 'react-native';
+import {AppRegistry, View} from 'react-native';
 import DetailsList from '../../components/detailsList';
 import theme, {getNavbar} from '../../theme';
-import ImagesUri from '../../assets/air.jpg';
 
 export default class Home extends React.Component {
 
@@ -15,11 +14,9 @@ export default class Home extends React.Component {
         const {navigation} = this.props;
         const {id} = navigation.state.params;
         return (
-            <ImageBackground source={ImagesUri} style={theme.background} resizeMode='cover'>
                 <View style={theme.container}>
                     <DetailsList stationId={id} navigation={navigation}/>
                 </View>
-            </ImageBackground>
         );
     }
 }
