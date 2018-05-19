@@ -8,11 +8,12 @@ import {
     Text
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {backColor, mainColor} from "../../theme";
 
 const defaultValue = {
-    backgroundColor: '#841584',
+    backgroundColor: backColor,
     height: 50,
-    color: '#FAFAFA',
+    color: mainColor,
     fontSize: 20,
     width: '100%'
 };
@@ -20,7 +21,7 @@ const defaultValue = {
 const ButtonComponent = ({onPress, icon, text, style, disabled}) => {
 
     const styleProps = {
-        backgroundColor: disabled ? '#cccccc' : style.backgroundColor || defaultValue.backgroundColor,
+        backgroundColor: style.backgroundColor || defaultValue.backgroundColor,
         height: style.height || defaultValue.height,
         width: style.width || defaultValue.width
     };
