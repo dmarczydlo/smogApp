@@ -9,7 +9,7 @@ My first react-native app for air quality.
 
 ### Maps setup
 Create file android/app/src/main/res/values/secrets.xml like below:
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="google_maps_api_key">XXXX-XXX</string>
