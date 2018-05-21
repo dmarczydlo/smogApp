@@ -1,7 +1,6 @@
 # SmogApp
 My first react-native app for air quality.
-
-![preview](https://github.com/dmarczydlo/smogApp/blob/master/output.gif)
+<img src="https://github.com/dmarczydlo/smogApp/blob/master/output.gif" height="600">
 
 
 ## Requires
