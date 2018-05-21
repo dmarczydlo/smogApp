@@ -1,6 +1,10 @@
 # SmogApp
 My first react-native app for air quality.
 
+![image](https://i.imgur.com/BzhQkiv.gif)
+
+
+
 ## Requires
 * Watchman
 * Android SDK (23 and 27)
