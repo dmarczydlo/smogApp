@@ -8,12 +8,12 @@ import {
     Text
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {backColor, mainColor} from "../../theme";
+import {palette} from "../../theme";
 
 const defaultValue = {
-    backgroundColor: backColor,
+    backgroundColor: palette.backColor,
     height: 50,
-    color: mainColor,
+    color: palette.mainColor,
     fontSize: 20,
     width: '100%'
 };

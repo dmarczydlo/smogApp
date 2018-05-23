@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {AppRegistry, ScrollView, View, Text, StyleSheet, TouchableHighlight} from 'react-native';
 import ListViewComponent from '../listView'
 import {getIndex} from "../../utils/airIndex";
-import {mainColor} from "../../theme";
+import {palette} from "../../theme";
 import Icon from 'react-native-vector-icons/Feather';
 
 export default class DetailsList extends Component {
@@ -38,10 +38,10 @@ export default class DetailsList extends Component {
                 }}>
                 </View>
                 <View style={{width: '20%'}}>
-                    <Text>{rowData.label}</Text>
+                    <Text style={styles.element}>{rowData.label}</Text>
                 </View>
                 <View style={{width: '70%'}}>
-                    <Text>{rowData.value}</Text>
+                    <Text style={styles.element}>{rowData.value}</Text>
                 </View>
             </View>
         )
@@ -56,10 +56,10 @@ export default class DetailsList extends Component {
             <TouchableHighlight onPress={() => this.onPress(rowData, 'Graph')}>
                 <View style={styles.item}>
                     <View style={{width: '20%'}}>
-                        <Icon name={'wind'} style={{fontSize: 20}}/>
+                        <Icon name={'wind'} style={[{fontSize: 20}, styles.element]}/>
                     </View>
                     <View style={{width: '80%'}}>
-                        <Text>{rowData.param.paramName}</Text>
+                        <Text style={styles.element}>{rowData.param.paramName}</Text>
                     </View>
                 </View>
             </TouchableHighlight>
@@ -86,10 +86,13 @@ const styles = StyleSheet.create({
     item: {
         padding: 10,
         marginTop: 1,
-        backgroundColor: mainColor,
+        backgroundColor: palette.backElementColor,
         alignItems: 'center',
         flex: 1,
         flexDirection: 'row'
+    },
+    element: {
+        color: palette.fontColor
     }
 });
 

@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {AppRegistry, View, Text, Image, StyleSheet} from 'react-native';
-import theme, {mainColor} from "../../theme";
+import theme, {palette} from "../../theme";
 import Logo from '../../assets/logo.png';
 
 
-export default class About extends React.Component {
+export default class About extends Component {
 
     render() {
         return (
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         height: 200
     },
     text: {
-        color: mainColor,
+        color: palette.mainColor,
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop:5,
