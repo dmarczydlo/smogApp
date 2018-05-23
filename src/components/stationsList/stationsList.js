@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AppRegistry, View, Text} from 'react-native';
+import {AppRegistry, ScrollView, RefreshControl} from 'react-native';
 import ListViewComponent from '../../components/listView';
 import theme from '../../theme';
 
@@ -8,6 +8,7 @@ export default class StationsList extends Component {
         isConnected: this.props.isConnected,
         latitude: null,
         longitude: null,
+        refreshing: false
     };
 
     watchID = null;
@@ -45,11 +46,22 @@ export default class StationsList extends Component {
         return null;
     }
 
+    onRefresh = () => {
+        this.props.fetchDataForStations();
+    };
+
     render() {
         const {latitude, longitude} = this.state;
         const {navigation, stations} = this.props;
         return (
-            <View style={theme.container}>
+            <ScrollView style={theme.container}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.refreshing}
+                                onRefresh={this.onRefresh}
+                            />
+                        }
+            >
                 <ListViewComponent object={stations}
                                    header={'Dostępne stacje pomiarowe'}
                                    col1='stationName'
@@ -63,7 +75,7 @@ export default class StationsList extends Component {
                                        longitude
                                    }}
                 />
-            </View>
+            </ScrollView>
         );
     }
 }

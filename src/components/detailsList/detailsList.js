@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AppRegistry, ScrollView, View, Text, StyleSheet, TouchableHighlight} from 'react-native';
+import {AppRegistry, ScrollView, View, Text, StyleSheet, TouchableHighlight, RefreshControl} from 'react-native';
 import ListViewComponent from '../listView'
 import {getIndex} from "../../utils/airIndex";
 import {palette} from "../../theme";
@@ -8,7 +8,8 @@ import Icon from 'react-native-vector-icons/Feather';
 export default class DetailsList extends Component {
 
     state = {
-        isConnected: this.props.isConneted
+        isConnected: this.props.isConneted,
+        refreshing: false
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -66,12 +67,22 @@ export default class DetailsList extends Component {
         )
     };
 
+    onRefresh = () => {
+        this.props.fetchDataForDetails();
+    };
+
     render() {
         const {sensors, indexes} = this.props;
         return (
             <ScrollView
                 vertical
                 pagingEnabled
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.refreshing}
+                        onRefresh={this.onRefresh}
+                    />
+                }
             >
                 <ListViewComponent header='Dostępne sensory' object={sensors}
                                    col1='param.paramName' customRenderRow={this.customRenderSensorsRow}/>
