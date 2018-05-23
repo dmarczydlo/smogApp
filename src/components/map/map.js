@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {StyleSheet, Dimensions, View, Text, Slider, AppRegistry} from "react-native";
 import Button from '../button';
 import MapView, {Circle, Marker} from 'react-native-maps';
-import {mainColor, backColor} from "../../theme";
+import {palette} from "../../theme";
 import {convertHex} from "../../utils/theme";
 
 const buttonStyle = {
@@ -45,7 +45,7 @@ export default class MapComponent extends Component {
     };
 
     render() {
-        console.log(convertHex(mainColor, 10));
+        console.log(convertHex(palette.mainColor, 10));
         const {locationData, markers} = this.props;
         const {radius, selectedMarker} = this.state;
         return (
@@ -67,8 +67,8 @@ export default class MapComponent extends Component {
                                 longitude: locationData.longitude || 0
                             }}
                             radius={radius * 1000}
-                            fillColor={convertHex(backColor, 30)}
-                            strokeColor={convertHex(backColor, 30)}/>
+                            fillColor={convertHex(palette.backColor, 30)}
+                            strokeColor={convertHex(palette.backColor, 30)}/>
 
                         {markers && markers.map((marker, index) => (
                             <Marker
@@ -86,8 +86,8 @@ export default class MapComponent extends Component {
                             maximumValue={1000}
                             onValueChange={this.updateRadius}
                             value={radius}
-                            thumbTintColor={backColor}
-                            minimumTrackTintColor={backColor}
+                            thumbTintColor={palette.backColor}
+                            minimumTrackTintColor={palette.backColor}
                         />
                         <View style={styles.detailsContainer}>
                             <Text style={styles.text}>
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
         width: Dimensions.get('screen').width,
         height: 160,
         padding: 5,
-        backgroundColor: convertHex(backColor, 10),
+        backgroundColor: convertHex(palette.backColor, 10),
     },
     detailsContainer: {
         flexDirection: 'row',

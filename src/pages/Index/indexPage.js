@@ -7,7 +7,7 @@ import Settings from '../Settings';
 import React, {Component, Fragment} from 'react';
 import {NetInfo, Alert, Dimensions, StyleSheet} from 'react-native';
 import {TabViewAnimated, TabBar, SceneMap} from 'react-native-tab-view';
-import {backColorSecond, mainColor, backColor} from "../../theme";
+import {palette} from "../../theme";
 import Icon from 'react-native-vector-icons/Feather'
 
 const Navigator = createStackNavigator({
@@ -45,7 +45,7 @@ class Index extends Component {
     _handleIndexChange = index => this.setState({index});
 
     _renderIcon = ({ route }) => (
-        <Icon name={route.icon} size={24}  style={{color: mainColor}}/>
+        <Icon name={route.icon} size={24}  style={{color: palette.mainColor}}/>
     );
 
     _renderFooter = props => {
@@ -105,13 +105,13 @@ class Index extends Component {
 
 const styles = StyleSheet.create({
     indicator: {
-        backgroundColor: mainColor
+        backgroundColor: palette.mainColor
     },
     label: {
-        color: mainColor
+        color: palette.mainColor
     },
     tabBar: {
-        backgroundColor: backColorSecond
+        backgroundColor: palette.backNavColor
     }
 });
 

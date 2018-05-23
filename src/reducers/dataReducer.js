@@ -13,7 +13,7 @@ import {
     FETCH_CHART_DATA_ERROR,
     FETCH_CHART_DATA_SUCCESS,
     SET_INTERNET_CONNECTION
-} from "../actions/fetch";
+} from "./../actions/fetch";
 
 const initialState = {
     sensors: {

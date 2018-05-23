@@ -1,16 +1,21 @@
 import {StyleSheet} from "react-native";
 
-export const mainColor = '#f9f9f9';
-export const backColor = '#000000';
-export const backColorSecond = '#202020';
+
+export const palette = {
+    mainColor: '#a1a7aa',
+    backColor: '#0e1315',
+    backElementColor: '#1b2129',
+    backNavColor: '#222a33',
+    fontColor: '#a1a7aa'
+};
 
 export const getNavbar = (title) => {
     return {
         title,
         headerStyle: {
-            backgroundColor: mainColor,
+            backgroundColor: palette.backElementColor,
         },
-        headerTintColor: backColor,
+        headerTintColor: palette.mainColor,
         headerTitleStyle: {
             fontWeight: 'normal',
         }
@@ -21,7 +26,7 @@ export const getNavbar = (title) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: backColor
+        backgroundColor: palette.backColor
     },
     background: {
         flex: 1
@@ -31,16 +36,16 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         padding: 4,
         textAlign: 'center',
-        color: mainColor
+        color: palette.mainColor
     },
     subHeader: {
         fontSize: 16,
         padding: 4,
         textAlign: 'center',
-        color: mainColor
+        color: palette.mainColor
     },
     headerBox: {
-        color: mainColor,
+        color: palette.mainColor,
         marginTop: 10,
         marginBottom: 5,
         fontSize: 20,

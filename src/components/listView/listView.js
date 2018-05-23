@@ -14,12 +14,12 @@ import Map from '../map';
 import PropTypes from 'prop-types';
 import {getData, filterData, markersParse} from "../../utils/object";
 import Loader from '../loader';
-import theme, {mainColor, backColor, backColorSecond} from '../../theme';
+import theme, {palette} from '../../theme';
 
 const child = (rowData, col1, col2 = '') => {
     return (
         <View style={styles.item}>
-            <Text>{col2 ? `${getData(rowData, col1)} : ${getData(rowData, col2)}` : getData(rowData, col1)} </Text>
+            <Text style={styles.element}>{col2 ? `${getData(rowData, col1)} : ${getData(rowData, col2)}` : getData(rowData, col1)} </Text>
         </View>
     );
 };
@@ -126,8 +126,8 @@ export default class ListViewComponent extends Component {
                                 <TextInput
                                     autoCorrect={false}
                                     style={styles.searchText}
-                                    placeholderTextColor={'white'}
-                                    underlineColorAndroid={'white'}
+                                    placeholderTextColor={palette.fontColor}
+                                    underlineColorAndroid={palette.fontColor}
                                     placeholder="Szukaj"
                                     value={search}
                                     onChangeText={this.onChangeSearch}
@@ -184,8 +184,11 @@ const styles = StyleSheet.create({
     item: {
         padding: 10,
         marginTop: 1,
-        backgroundColor: mainColor,
+        backgroundColor: palette.backElementColor,
         alignItems: 'center',
+    },
+    element: {
+        color: palette.fontColor
     },
     icons: {
         width: '30%',
@@ -201,13 +204,13 @@ const styles = StyleSheet.create({
     },
     searchText: {
         width: '80%',
-        color: mainColor
+        color: palette.mainColor
     },
     topContainer: {
         flexDirection: 'row',
     },
     headerBox: {
-        backgroundColor: backColorSecond,
+        backgroundColor: palette.backNavColor,
     },
     main: {
         marginTop: 5,
